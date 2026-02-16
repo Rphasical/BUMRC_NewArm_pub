@@ -1,0 +1,44 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    
+    end_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    
+
+joint_state_broadcaster:
+  ros__parameters:
+    publish_rate: 50
+
+arm_controller:
+  ros__parameters:
+    joints:
+      - revolute_1
+      - revolute_8
+      - revolute_9
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 50.0
+
+end_controller:
+  ros__parameters:
+    joints: 
+      - revolute_11
+      - gripper_open_joint
+      - gripper_right_joint
+    command_interfaces:
+      - position
+    state_interfaces: 
+      - position
+      - velocity
+    state_publish_rate: 50.0

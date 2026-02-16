@@ -1,0 +1,10 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro $(find arm_description)/urdf/ARM.urdf.xacro"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+</launch>

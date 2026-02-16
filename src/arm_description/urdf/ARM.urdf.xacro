@@ -1,0 +1,348 @@
+<?xml version="1.0" ?>
+<robot name="ARM" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:arg name="sim_gazebo" default="true"/>
+<xacro:arg name="simulation_controllers" default="$(find arm_description)/launch/controller.yaml"/>
+<xacro:arg name="sim_ignition" default="false"/>
+<xacro:arg name="tf_prefix" default=""/>
+
+<xacro:include filename="$(find arm_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find arm_description)/urdf/ARM.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.011548124790208178 -0.06675666357503725 0.016860013348185907" rpy="0 0 0"/>
+    <mass value="1.617520070371658"/>
+    <inertia ixx="0.001877" iyy="0.003554" izz="0.001877" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  <!-- Stabilizing base plate -->
+  <collision>
+    <origin xyz="0 0 -0.39" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.2 0.2 0.61"/>
+    </geometry>
+  </collision>
+
+  <visual>
+    <origin xyz="0 0 -0.39" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.2 0.2 0.61"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+</link>
+
+<link name="world"/>
+
+<joint name="world_joint" type="fixed">
+  <parent link="world"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0.7" rpy="0 0 0"/>
+</joint>
+
+<link name="J1In_v1_1">
+  <inertial>
+    <origin xyz="-0.03830458612577855 0.01909902865552605 -0.0009002990425162304" rpy="0 0 0"/>
+    <mass value="3.7192523773111"/>
+    <inertia ixx="0.005026" iyy="0.010497" izz="0.006726" ixy="0.000275" iyz="0.000102" ixz="0.000273"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.011548 0.044828 -0.01686" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/J1In_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.011548 0.044828 -0.01686" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/J1In_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Plate1_v1_1">
+  <inertial>
+    <origin xyz="-0.21635189784504516 -0.017435171704568184 0.061149823556132965" rpy="0 0 0"/>
+    <mass value="4.819221392235697"/>
+    <inertia ixx="0.005726" iyy="0.091947" izz="0.089509" ixy="-0.002855" iyz="0.000429" ixz="0.002383"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.124452 0.024828 0.03914" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/Plate1_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.124452 0.024828 0.03914" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/Plate1_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="J2Out_v1_1">
+  <inertial>
+    <origin xyz="-0.11650839175425809 -0.02177605587074638 0.03563892022345992" rpy="0 0 0"/>
+    <mass value="1.4975943327836068"/>
+    <inertia ixx="0.00122" iyy="0.014253" izz="0.013542" ixy="-0.000229" iyz="-6e-06" ixz="-0.001081"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.56393 0.047859 0.01384" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/J2Out_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.56393 0.047859 0.01384" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/J2Out_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Small_Light_-_Spiral_Face_3.2M_20T_v1_1">
+  <inertial>
+    <origin xyz="-0.020047006397060585 4.899792152388005e-06 0.02825687380923673" rpy="0 0 0"/>
+    <mass value="0.8217473320476296"/>
+    <inertia ixx="0.000918" iyy="0.000962" izz="0.000753" ixy="0.0" iyz="0.0" ixz="0.000298"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.948234 0.07089 0.02354" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/Small_Light_-_Spiral_Face_3.2M_20T_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.948234 0.07089 0.02354" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/Small_Light_-_Spiral_Face_3.2M_20T_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Grabber_Base_v1_1">
+  <inertial>
+    <origin xyz="0.0006514613431334304 2.3945116182644277e-06 0.003320707496539399" rpy="0 0 0"/>
+    <mass value="0.984291589500133"/>
+    <inertia ixx="0.00148" iyy="0.000585" izz="0.001318" ixy="0.0" iyz="-0.0" ixz="5.3e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.990634 0.07089 -0.02276" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/Grabber_Base_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.990634 0.07089 -0.02276" rpy="1.5708 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/Grabber_Base_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<!-- Two-Finger Gripper -->
+
+<!-- Left finger -->
+<link name="left_prong">
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="0.05"/>
+    <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0.0" ixz="0.0" iyz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.05 0.05 -0.035" rpy="0 0 0"/>
+    <geometry><box size="0.05 0.02 0.005"/></geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.05 0.05 -0.035" rpy="0 0 0"/>
+    <geometry><box size="0.05 0.02 0.005"/></geometry>
+  </collision>
+</link>
+
+<!-- Right finger -->
+<link name="right_prong">
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="0.05"/>
+    <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0.0" ixz="0.0" iyz="0.0"/>
+  </inertial>
+
+  <visual>
+    <origin xyz="-0.05 0.05 -0.18" rpy="0 0 0"/>
+    <geometry><box size="0.05 0.02 0.005"/></geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.05 0.05 -0.18" rpy="0 0 0"/>
+    <geometry><box size="0.05 0.02 0.005"/></geometry>
+  </collision>
+</link>
+
+<!-- Left prong joint (fake motor joint driving open/close) -->
+<joint name="gripper_open_joint" type="prismatic">
+  <parent link="Grabber_Base_v1_1"/>
+  <child link="left_prong"/>
+  <origin xyz="0 0 0.003" rpy="0 0 0"/>
+  <axis xyz="0 0 -1"/>
+  <limit effort="5.0" lower="0.0" upper="0.05" velocity="1"/>
+</joint>
+
+<!-- Right prong mimics left -->
+<joint name="gripper_right_joint" type="prismatic">
+  <parent link="Grabber_Base_v1_1"/>
+  <child link="right_prong"/>
+  <origin xyz="0 0 0.03" rpy="0 0 0"/>
+  <axis xyz="0 0 1"/>
+  <limit lower="-0.0" upper="0.05" effort="5.0" velocity="1"/>
+</joint>
+
+
+
+
+
+<!-- Camera Optical Link (usually for depth sensing and camera frame) -->
+<link name="camera_optical_link"/>
+
+<!-- Generic Camera Link -->
+<link name="camera_link">
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="0.2"/>
+    <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+  </inertial>
+  <visual>
+    <geometry>
+        <!-- Simple Box geometry representing the camera -->
+        <box size="0.03 0.04 0.175"/> <!-- Adjust dimensions as needed -->
+    </geometry>
+    <material name="red"/>
+  </visual>
+  <collision>
+    <geometry>
+        <box size="0.03 0.04 0.175"/> <!-- Adjust dimensions as needed -->
+    </geometry>
+  </collision>
+</link>
+
+<!-- Camera Joint to connect it to the base -->
+<joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="-0.2 -0.005 -0.2" rpy="1.57 1.97 0" />
+</joint>
+
+
+<!-- Joint for optical frame -->
+<joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57" />
+</joint>
+
+
+<joint name="revolute_1" type="continuous">
+  <origin xyz="0.011548 -0.044828 0.01686" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="J1In_v1_1"/>
+  <axis xyz="0.0 0.0 1.0"/>
+</joint>
+
+<joint name="revolute_8" type="continuous">
+  <origin xyz="-0.136 0.02 -0.056" rpy="0 0 0"/>
+  <parent link="J1In_v1_1"/>
+  <child link="Plate1_v1_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="revolute_9" type="continuous">
+  <origin xyz="-0.439478 -0.023031 0.0253" rpy="0 0 0"/>
+  <parent link="Plate1_v1_1"/>
+  <child link="J2Out_v1_1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+</joint>
+
+<joint name="revolute_10" type="continuous">
+  <origin xyz="-0.384304 -0.023031 -0.0097" rpy="0 0 0"/>
+  <parent link="J2Out_v1_1"/>
+  <child link="Small_Light_-_Spiral_Face_3.2M_20T_v1_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <dynamics damping="5.0" friction="1.0"/>
+</joint>
+
+<joint name="revolute_11" type="continuous">
+  <origin xyz="-0.0424 0.0 0.0463" rpy="0 0 0"/>
+  <parent link="Small_Light_-_Spiral_Face_3.2M_20T_v1_1"/>
+  <child link="Grabber_Base_v1_1"/>
+  <axis xyz="1.0 0.0 0.0"/>
+</joint>
+
+<ros2_control name="ARMSystem" type="system">
+  <hardware>
+    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+  </hardware>
+
+  <joint name="revolute_1">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="revolute_8">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="revolute_9">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="revolute_10">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    
+  </joint>
+
+  <joint name="revolute_11">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    
+  </joint>
+
+  <joint name="gripper_open_joint">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="gripper_right_joint">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+
+</ros2_control>
+
+</robot>

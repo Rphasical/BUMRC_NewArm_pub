@@ -1,0 +1,708 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <audio>
+      <device>default</device>
+    </audio>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='ARM'>
+      <joint name='world_joint' type='fixed'>
+        <pose relative_to='__model__'>0 0 0.9 0 -0 0</pose>
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+      <link name='base_link'>
+        <pose relative_to='world_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.011548 -0.066757 0.01686 0 -0 0</pose>
+          <mass>1.61752</mass>
+          <inertia>
+            <ixx>0.001877</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.003554</iyy>
+            <iyz>0</iyz>
+            <izz>0.001877</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_collision'>
+          <pose>0 0 0 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/base_link.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='base_link_visual'>
+          <pose>0 0 0 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/base_link.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <gravity>1</gravity>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='revolute_1' type='revolute'>
+        <pose relative_to='base_link'>0.011548 -0.044828 0.01686 0 -0 0</pose>
+        <parent>base_link</parent>
+        <child>J1In_v1_1</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='J1In_v1_1'>
+        <pose relative_to='revolute_1'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.038305 0.019099 -0.0009 0 -0 0</pose>
+          <mass>3.71925</mass>
+          <inertia>
+            <ixx>0.005026</ixx>
+            <ixy>0.000275</ixy>
+            <ixz>0.000273</ixz>
+            <iyy>0.010497</iyy>
+            <iyz>0.000102</iyz>
+            <izz>0.006726</izz>
+          </inertia>
+        </inertial>
+        <collision name='J1In_v1_1_collision'>
+          <pose>-0.011548 0.044828 -0.01686 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/J1In_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='J1In_v1_1_visual'>
+          <pose>-0.011548 0.044828 -0.01686 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/J1In_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='revolute_8' type='revolute'>
+        <pose relative_to='J1In_v1_1'>-0.136 0.02 -0.056 0 -0 0</pose>
+        <parent>J1In_v1_1</parent>
+        <child>Plate1_v1_1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='Plate1_v1_1'>
+        <pose relative_to='revolute_8'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.216352 -0.017435 0.06115 0 -0 0</pose>
+          <mass>4.81922</mass>
+          <inertia>
+            <ixx>0.005726</ixx>
+            <ixy>-0.002855</ixy>
+            <ixz>0.002383</ixz>
+            <iyy>0.091947</iyy>
+            <iyz>0.000429</iyz>
+            <izz>0.089509</izz>
+          </inertia>
+        </inertial>
+        <collision name='Plate1_v1_1_collision'>
+          <pose>0.124452 0.024828 0.03914 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/Plate1_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='Plate1_v1_1_visual'>
+          <pose>0.124452 0.024828 0.03914 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/Plate1_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='revolute_9' type='revolute'>
+        <pose relative_to='Plate1_v1_1'>-0.439478 -0.023031 0.0253 0 -0 0</pose>
+        <parent>Plate1_v1_1</parent>
+        <child>J2Out_v1_1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='J2Out_v1_1'>
+        <pose relative_to='revolute_9'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.116508 -0.021776 0.035639 0 -0 0</pose>
+          <mass>1.49759</mass>
+          <inertia>
+            <ixx>0.00122</ixx>
+            <ixy>-0.000229</ixy>
+            <ixz>-0.001081</ixz>
+            <iyy>0.014253</iyy>
+            <iyz>-6e-06</iyz>
+            <izz>0.013542</izz>
+          </inertia>
+        </inertial>
+        <collision name='J2Out_v1_1_collision'>
+          <pose>0.56393 0.047859 0.01384 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/J2Out_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='J2Out_v1_1_visual'>
+          <pose>0.56393 0.047859 0.01384 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/J2Out_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='revolute_10' type='revolute'>
+        <pose relative_to='J2Out_v1_1'>-0.384304 -0.023031 -0.0097 0 -0 0</pose>
+        <parent>J2Out_v1_1</parent>
+        <child>Small_Light_-_Spiral_Face_3.2M_20T_v1_1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='Small_Light_-_Spiral_Face_3.2M_20T_v1_1'>
+        <pose relative_to='revolute_10'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.020047 5e-06 0.028257 0 -0 0</pose>
+          <mass>0.821747</mass>
+          <inertia>
+            <ixx>0.000918</ixx>
+            <ixy>0</ixy>
+            <ixz>0.000298</ixz>
+            <iyy>0.000962</iyy>
+            <iyz>0</iyz>
+            <izz>0.000753</izz>
+          </inertia>
+        </inertial>
+        <collision name='Small_Light_-_Spiral_Face_3.2M_20T_v1_1_collision'>
+          <pose>0.948234 0.07089 0.02354 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/Small_Light_-_Spiral_Face_3.2M_20T_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='Small_Light_-_Spiral_Face_3.2M_20T_v1_1_visual'>
+          <pose>0.948234 0.07089 0.02354 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/Small_Light_-_Spiral_Face_3.2M_20T_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='revolute_11' type='revolute'>
+        <pose relative_to='Small_Light_-_Spiral_Face_3.2M_20T_v1_1'>-0.0424 0 0.0463 0 -0 0</pose>
+        <parent>Small_Light_-_Spiral_Face_3.2M_20T_v1_1</parent>
+        <child>Grabber_Base_v1_1</child>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='Grabber_Base_v1_1'>
+        <pose relative_to='revolute_11'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.000651 2e-06 0.003321 0 -0 0</pose>
+          <mass>0.984292</mass>
+          <inertia>
+            <ixx>0.00148</ixx>
+            <ixy>0</ixy>
+            <ixz>5.3e-05</ixz>
+            <iyy>0.000585</iyy>
+            <iyz>0</iyz>
+            <izz>0.001318</izz>
+          </inertia>
+        </inertial>
+        <collision name='Grabber_Base_v1_1_collision'>
+          <pose>0.990634 0.07089 -0.02276 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/Grabber_Base_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='Grabber_Base_v1_1_visual'>
+          <pose>0.990634 0.07089 -0.02276 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>file:///home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/meshes/Grabber_Base_v1_1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>0</static>
+      <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
+        <parameters>/home/ray/BUMRC_NewArm/install/arm_description/share/arm_description/launch/controller.yaml</parameters>
+      </plugin>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+    <model name='holder'>
+      <link name='link_0'>
+        <inertial>
+          <mass>0.0272223</mass>
+          <inertia>
+            <ixx>0.00149986</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.00149986</iyy>
+            <iyz>0</iyz>
+            <izz>0.000116319</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <pose>-0 0 -0 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.0924438</radius>
+              <length>0.797197</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <shader type='pixel'/>
+          </material>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.092444</radius>
+              <length>0.797197</length>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>0</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <pose>-0.026401 0.009829 0.399488 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>13 983000000</sim_time>
+      <real_time>14 307899716</real_time>
+      <wall_time>1770540220 502184145</wall_time>
+      <iterations>13983</iterations>
+      <model name='ARM'>
+        <pose>-0 0 0 0 -0 1e-06</pose>
+        <scale>1 1 1</scale>
+        <link name='Grabber_Base_v1_1'>
+          <pose>-0.990648 -0.070891 0.919182 2e-06 -0.00357 4e-06</pose>
+          <velocity>-3.3e-05 1e-06 -0.014257 7e-06 -0.014225 4.3e-05</velocity>
+          <acceleration>-0.080657 0.001264 -14.2476 -3.13452 -1.48255 -3.09858</acceleration>
+          <wrench>-0.07939 0.001244 -14.0238 0 -0 0</wrench>
+        </link>
+        <link name='J1In_v1_1'>
+          <pose>0.011548 -0.044828 0.91686 -1e-06 -0.003571 -2e-06</pose>
+          <velocity>-0 0 -0 0 -0.014225 0</velocity>
+          <acceleration>0.014745 -0 -0.544855 3.14044 -1.48255 -3.13946</acceleration>
+          <wrench>0.054839 -2e-06 -2.02645 0 -0 0</wrench>
+        </link>
+        <link name='J2Out_v1_1'>
+          <pose>-0.563816 -0.047862 0.884105 -1e-06 -0.003571 -7e-06</pose>
+          <velocity>0.000466 -9e-06 -0.008185 0 -0.014225 -3.2e-05</velocity>
+          <acceleration>-0.035395 -0.005436 -9.84398 3.14093 -1.48254 3.10884</acceleration>
+          <wrench>-0.053008 -0.008141 -14.7422 0 -0 0</wrench>
+        </link>
+        <link name='Plate1_v1_1'>
+          <pose>-0.124251 -0.024828 0.860375 -1e-06 -0.003571 8e-06</pose>
+          <velocity>0.000803 -0 -0.001932 0 -0.014225 2.1e-05</velocity>
+          <acceleration>-0.055036 -0.004501 -5.01258 3.13752 -1.48243 -3.12233</acceleration>
+          <wrench>-0.265232 -0.021693 -24.1567 0 -0 0</wrench>
+        </link>
+        <link name='Small_Light_-_Spiral_Face_3.2M_20T_v1_1'>
+          <pose>-0.948083 -0.070891 0.873033 -1e-06 -0.003571 4e-06</pose>
+          <velocity>0.000623 3e-06 -0.013651 0 -0.014225 4.3e-05</velocity>
+          <acceleration>0.222152 0.002221 -13.9378 3.14142 -1.48255 -3.09868</acceleration>
+          <wrench>0.182553 0.001825 -11.4533 0 -0 0</wrench>
+        </link>
+        <link name='base_link'>
+          <pose>-0 -0 0.9 0 -0 1e-06</pose>
+          <velocity>0 0 -0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='holder'>
+        <pose>-0.026401 0.009829 0.399488 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link_0'>
+          <pose>-0.026401 0.009829 0.399488 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>1.7882 -1.35225 0.812404 0 0.275643 2.35619</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

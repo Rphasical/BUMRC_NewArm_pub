@@ -1,0 +1,9 @@
+# Default initial positions for ARM's ros2_control fake system
+
+initial_positions:
+  gripper_open_joint: 0
+  gripper_right_joint: 0
+  revolute_1: 0
+  revolute_11: 0
+  revolute_8: 0
+  revolute_9: 0

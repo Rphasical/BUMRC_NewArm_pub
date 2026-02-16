@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>arm_description</name>
+  <version>0.1.0</version>
+  <description>The arm_description package: URDF, controllers, and launch files for ARM robot</description>
+
+  <maintainer email="syuntoku14@todo.todo">syuntoku14</maintainer>
+
+  <license>Apache-2.0</license>
+
+  <!-- Build tool -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Build dependencies -->
+  <depend>moveit_core</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>moveit_task_constructor_core</depend>
+  <depend>rclcpp</depend>
+  <depend>xacro</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>ros2_control</depend>
+  <depend>controller_manager</depend>
+  <depend>gazebo_ros</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>rviz2</depend>
+  <depend>linkattacher_msgs</depend>
+  
+  <!-- Execution dependencies -->
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>position_controllers</exec_depend>
+  <exec_depend>gazebo_ros2_control</exec_depend>
+
+  <!-- Optional authors -->
+  <!-- <author email="someone@example.com">Someone</author> -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+    <gazebo_ros gazebo_model_path = "$(find arm_description)/install/arm_description/share/"/>
+  </export>
+</package>
