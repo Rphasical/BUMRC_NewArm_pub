@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: arm_description
+    relative_path: urdf/ARM.urdf.xacro
+  srdf:
+    relative_path: config/ARM.srdf
+  package_settings:
+    author_name: Ray Bunton
+    author_email: rbunton@bu.edu
+    generated_timestamp: 1771206412
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
