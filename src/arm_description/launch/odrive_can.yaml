@@ -1,0 +1,120 @@
+launch:
+
+# Axis 0
+- node:
+    pkg: "odrive_can"
+    exec: "odrive_can_node"
+    name: "odrive0"
+    namespace: "odrive0"
+    param:
+    -
+      name: "node_id"
+      value: 0
+    -
+      name: "interface"
+      value: "vcan0"
+    -
+      name: "axis_name"
+      value: "revolute_1"
+
+# Axis 1
+- node:
+    pkg: "odrive_can"
+    exec: "odrive_can_node"
+    name: "odrive1"
+    namespace: "odrive1"
+    param:
+    -
+      name: "node_id"
+      value: 1
+    -
+      name: "interface"
+      value: "vcan0"
+    -
+      name: "axis_name"
+      value: "revolute_8"
+
+# Axis 2
+- node:
+    pkg: "odrive_can"
+    exec: "odrive_can_node"
+    name: "odrive2"
+    namespace: "odrive2"
+    param:
+    -
+      name: "node_id"
+      value: 2
+    -
+      name: "interface"
+      value: "vcan0"
+    -
+      name: "axis_name"
+      value: "revolute_9"
+
+# Axis 3
+- node:
+    pkg: "odrive_can"
+    exec: "odrive_can_node"
+    name: "odrive3"
+    namespace: "odrive3"
+    param:
+    -
+      name: "node_id"
+      value: 3
+    -
+      name: "interface"
+      value: "vcan0"
+    -
+      name: "axis_name"
+      value: "revolute_10"
+
+# Axis 4
+- node:
+    pkg: "odrive_can"
+    exec: "odrive_can_node"
+    name: "odrive4"
+    namespace: "odrive4"
+    param:
+    -
+      name: "node_id"
+      value: 4
+    -
+      name: "interface"
+      value: "vcan0"
+    -
+      name: "axis_name"
+      value: "revolute_11"
+
+# Axis 5 (Gripper open)
+- node:
+    pkg: "odrive_can"
+    exec: "odrive_can_node"
+    name: "odrive5"
+    namespace: "odrive5"
+    param:
+    -
+      name: "node_id"
+      value: 5
+    -
+      name: "interface"
+      value: "vcan0"
+    -
+      name: "axis_name"
+      value: "gripper_open_joint"
+
+# Axis 6 (Gripper close)
+- node:
+    pkg: "odrive_can"
+    exec: "odrive_can_node"
+    name: "odrive6"
+    namespace: "odrive6"
+    param:
+    -
+      name: "node_id"
+      value: 6
+    -
+      name: "interface"
+      value: "vcan0"
+    -
+      name: "axis_name"
+      value: "gripper_right_joint"

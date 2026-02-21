@@ -29,7 +29,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(pcl_ros REQUIRED)
 
-
+find_package(canopen_core REQUIRED)
 find_package(linkattacher_msgs REQUIRED)  
 find_package(ros2_linkattacher REQUIRED)
 

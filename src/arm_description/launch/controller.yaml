@@ -23,6 +23,8 @@ arm_controller:
       - revolute_1
       - revolute_8
       - revolute_9
+      - revolute_10
+      - revolute_11
     command_interfaces:
       - position
     state_interfaces:
@@ -33,7 +35,6 @@ arm_controller:
 end_controller:
   ros__parameters:
     joints: 
-      - revolute_11
       - gripper_open_joint
       - gripper_right_joint
     command_interfaces:

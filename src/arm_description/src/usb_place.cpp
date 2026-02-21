@@ -31,7 +31,7 @@
 
 const double tau = 2 * M_PI;
 
-static constexpr const char* EE_LINK = "Small_Light_-_Spiral_Face_3.2M_20T_v1_1";
+static constexpr const char* EE_LINK = "Grabber_Base_v1_1";
 
 class PickAndPlace
 {
@@ -46,7 +46,7 @@ public:
       tf_listener(tf_buffer)
 
     {
-        move_group.setPoseReferenceFrame("base_link");
+        move_group.setPoseReferenceFrame("world");
         attach_client = node_->create_client<linkattacher_msgs::srv::AttachLink>("/ATTACHLINK");
         detach_client = node_->create_client<linkattacher_msgs::srv::DetachLink>("/DETACHLINK");
         cloud_sub = node_->create_subscription<sensor_msgs::msg::PointCloud2>(
@@ -381,7 +381,7 @@ public:
         }
 
         tf2::Quaternion q;
-        q.setRPY(M_PI, 0, yaw);   // top-down grasp
+        q.setRPY(-M_PI, 0, 0);   // top-down grasp
         detected_pose.orientation = tf2::toMsg(q);
 
         object_detected = true;
@@ -398,7 +398,7 @@ public:
         move_group.setPlanningTime(10.0);
         move_group.allowReplanning(true);
         move_group.setGoalTolerance(0.003);
-        move_group.setEndEffectorLink("Small_Light_-_Spiral_Face_3.2M_20T_v1_1");
+        move_group.setEndEffectorLink("Grabber_Base_v1_1");
 
         move_group.clearPoseTargets();
 
@@ -406,12 +406,37 @@ public:
         geometry_msgs::msg::Pose approach = detected_pose;
         approach.position.z += 0.12;   // 6 cm above object
         approach.orientation = detected_pose.orientation;
-        
+        RCLCPP_INFO(logger, "Target pose: x=%.3f y=%.3f z=%.3f", detected_pose.position.x, detected_pose.position.y, detected_pose.position.z);
         // IMPORTANT: target the GRIPPER BASE, not tool0, not wrist
-        move_group.setPoseTarget(approach, "Small_Light_-_Spiral_Face_3.2M_20T_v1_1");
+        RCLCPP_INFO(logger,
+            "Target quaternion: x=%.3f y=%.3f z=%.3f w=%.3f",
+            approach.orientation.x,
+            approach.orientation.y,
+            approach.orientation.z,
+            approach.orientation.w);
+        move_group.setPoseTarget(approach, "Grabber_Base_v1_1");
 
         moveit::planning_interface::MoveGroupInterface::Plan plan1;
         bool success = (move_group.plan(plan1) == moveit::core::MoveItErrorCode::SUCCESS);
+        moveit::core::MoveItErrorCode result = move_group.plan(plan1);
+
+        if (result != moveit::core::MoveItErrorCode::SUCCESS)
+        {
+            switch (result.val) {
+                case moveit::core::MoveItErrorCode::PLANNING_FAILED: RCLCPP_WARN(logger, "Planning failed"); break;
+                case moveit::core::MoveItErrorCode::START_STATE_IN_COLLISION: RCLCPP_WARN(logger, "Start state in collision"); break;
+                case moveit::core::MoveItErrorCode::GOAL_IN_COLLISION: RCLCPP_WARN(logger, "Goal in collision"); break;
+                case moveit::core::MoveItErrorCode::NO_IK_SOLUTION: RCLCPP_WARN(logger, "No IK solution"); break;
+                default: RCLCPP_WARN(logger, "Unknown error code: %d", result.val); break;
+            }
+            return;
+        }
+
+        if (result != moveit::core::MoveItErrorCode::SUCCESS)
+        {
+            RCLCPP_ERROR(logger, "Failed to plan approach!");
+            return;
+        }
 
         RCLCPP_INFO(logger, "Approach plan: %s", success ? "SUCCESS" : "FAILED");
 
@@ -420,6 +445,7 @@ public:
             RCLCPP_ERROR(logger, "Failed to plan approach");
             return;
         }
+
 
         move_group.move();
         rclcpp::sleep_for(std::chrono::milliseconds(500));
@@ -431,25 +457,23 @@ public:
         geometry_msgs::msg::Pose grasp = approach;
         grasp.position.z = detected_pose.position.z;   // 1.2 cm above object
 
-        std::vector<geometry_msgs::msg::Pose> waypoints;
-        waypoints.push_back(grasp);
-
-        moveit_msgs::msg::RobotTrajectory trajectory;
-
-        move_group.clearPathConstraints();
-
-        double fraction = move_group.computeCartesianPath(
-            waypoints,
-            0.01,   // eef_step = 5mm
-            0.0,     // jump_threshold
-            trajectory,
-            true     // avoid collisions
-        );
-
-        RCLCPP_INFO(logger, "Cartesian path fraction: %.2f", fraction);
+        geometry_msgs::msg::Pose grasp_pose = detected_pose;
+        grasp_pose.position.z += 0.12; // 12 cm above for pre-grasp
 
 
-        move_group.execute(trajectory);
+        move_group.clearPoseTargets();
+        move_group.setPoseTarget(grasp_pose, EE_LINK); // "Grabber_Base_v1_1"
+
+        moveit::planning_interface::MoveGroupInterface::Plan grasp_plan;
+        auto grasp_result = move_group.plan(grasp_plan);
+
+        if (grasp_result != moveit::core::MoveItErrorCode::SUCCESS)
+        {
+            RCLCPP_ERROR(logger, "Approach planning failed");
+            return;
+        }
+
+        move_group.move();
 
         rclcpp::sleep_for(std::chrono::milliseconds(300));
 
@@ -499,7 +523,7 @@ public:
         place_pose.position.y = 0.468;
         place_pose.position.z = 0.218;
 
-        move_group.setPoseTarget(place_pose, "Small_Light_-_Spiral_Face_3.2M_20T_v1_1");
+        move_group.setPoseTarget(place_pose, "Grabber_Base_v1_1");
 
         moveit::planning_interface::MoveGroupInterface::Plan my_plan;
         bool success = (move_group.plan(my_plan) == moveit::core::MoveItErrorCode::SUCCESS);

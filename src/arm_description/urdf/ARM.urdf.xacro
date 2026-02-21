@@ -246,7 +246,7 @@
 <joint name="camera_joint" type="fixed">
     <parent link="base_link"/>
     <child link="camera_link"/>
-    <origin xyz="-0.2 -0.005 -0.2" rpy="1.57 1.97 0" />
+    <origin xyz="-0.2 -0.005 -0.2" rpy="1.57 2.17 0" />
 </joint>
 
 
@@ -296,7 +296,7 @@
 
 <ros2_control name="ARMSystem" type="system">
   <hardware>
-    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    <plugin>arm_hardware/ArmHardware</plugin>
   </hardware>
 
   <joint name="revolute_1">
